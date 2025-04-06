@@ -2,28 +2,68 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>麥塊變形者 - Made by Ryan</title>
+  <title>麥塊變形者</title>
   <style>
     body {
-      background-color: black;
-      color: white;
-      text-align: center;
-      padding-top: 100px;
-      font-family: 'Comic Sans MS', cursive;
+      margin: 0;
+      overflow: hidden;
+      background-color: #000;
     }
-    h1 {
-      font-size: 3em;
-      color: #00ffff;
-      animation: flash 1s infinite alternate;
+    #game {
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(to bottom, #222, #444);
+      position: relative;
     }
-    @keyframes flash {
-      from { text-shadow: 0 0 10px yellow; }
-      to { text-shadow: 0 0 40px red; }
+    #player {
+      width: 60px;
+      height: 60px;
+      background: url('https://i.imgur.com/LR95m7U.png') no-repeat center/cover;
+      position: absolute;
+      left: 100px;
+      top: 100px;
+    }
+    #dummy {
+      width: 60px;
+      height: 60px;
+      background: url('https://i.imgur.com/yMnAmCy.png') no-repeat center/cover;
+      position: absolute;
+      left: 300px;
+      top: 200px;
     }
   </style>
 </head>
 <body>
-  <h1>雷焰均閃電登場！</h1>
-  <p>這是 Ryan 做的遊戲《麥塊變形者》</p>
+  <div id="game">
+    <div id="player"></div>
+    <div id="dummy"></div>
+  </div>
+
+  <script>
+    const player = document.getElementById("player");
+    const dummy = document.getElementById("dummy");
+    let x = 100, y = 100;
+
+    document.addEventListener("keydown", (e) => {
+      const speed = 10;
+      if (e.key === "ArrowRight") x += speed;
+      if (e.key === "ArrowLeft") x -= speed;
+      if (e.key === "ArrowUp") y -= speed;
+      if (e.key === "ArrowDown") y += speed;
+
+      player.style.left = x + "px";
+      player.style.top = y + "px";
+
+      // 攻擊假人
+      if (e.key === " ") {
+        const dx = Math.abs(x - 300);
+        const dy = Math.abs(y - 200);
+        if (dx < 60 && dy < 60) {
+          dummy.style.opacity = 0.3;
+          dummy.innerText = "被打到了！";
+        }
+      }
+    });
+  </script>
 </body>
 </html>
